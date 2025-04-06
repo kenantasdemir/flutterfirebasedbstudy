@@ -13,7 +13,7 @@ class User{
   }
 
 
-  // Firebase'ten alınan veriyi bir User nesnesine dönüştürme
+
   factory User.fromMap(Map<dynamic, dynamic> map) {
     return User(
       user_age: map['user_age'] ?? 0,
