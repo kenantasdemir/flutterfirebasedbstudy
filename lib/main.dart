@@ -45,7 +45,7 @@ class FirebaseStudy extends StatelessWidget {
      if(snapshot.exists){
        Map<dynamic, dynamic> users = snapshot.value as Map<dynamic, dynamic>;
 
-       // Kullanıcıları tarayarak yaşı 35 olanları buluyoruz
+  
        users.forEach((userId, userData) {
          if (userData['user_age'] == 35) {
            print('Yaşı 35 olan kullanıcı bulundu, ID: $userId');
@@ -61,14 +61,13 @@ class FirebaseStudy extends StatelessWidget {
 
    Future<void> getUserDocumentIdByEmail(String email) async {
      try {
-       // Firestore'daki 'users' koleksiyonuna erişim
+       
        CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-       // E-posta ile sorgu yap
        QuerySnapshot querySnapshot = await users.where('email', isEqualTo: email).get();
 
        if (querySnapshot.docs.isNotEmpty) {
-         // Kullanıcı bulunduysa, ilk dokümanın ID'sini al
+ 
          String documentId = querySnapshot.docs.first.id;
          print('Kullanıcı Document ID: $documentId');
        } else {
@@ -92,13 +91,13 @@ class FirebaseStudy extends StatelessWidget {
               DatabaseEvent event = await ref.once();
               DataSnapshot snapshot = event.snapshot;
 
-              // Eğer veriler mevcutsa
+            
               if (snapshot.exists) {
                 snapshot.children.forEach((childSnapshot) {
-                  // childSnapshot.value, kullanıcının verilerini içerir
+         
                   Map<String, dynamic> userData = Map<String, dynamic>.from(childSnapshot.value as Map);
 
-                  // Kullanıcı bilgilerini yazdır
+                 
                   print('Kullanıcı Adı: ${userData['kisi_ad']}');
                   print('Kullanıcı Yaşı: ${userData['user_age']}');
                 });
@@ -136,21 +135,20 @@ class FirebaseStudy extends StatelessWidget {
             }, child: Text("Sil")),
             OutlinedButton(onPressed: () async {
               try {
-                // Yaşı 18 ile 60 arasında olan kullanıcıları sorgulama
+        
                 var query = ref.orderByChild('user_age').startAt(18).endAt(60);
 
-                // Veriyi çekme
                 var snapshots = await query.once();
 
-                // Verinin kontrolü
+          
                 if (snapshots.snapshot.value != null) {
-                  // Firebase'ten dönen verileri Map olarak alıyoruz
+     
                   var users = snapshots.snapshot.value as Map<dynamic, dynamic>;
 
-                  // Kullanıcıları bir listeye dönüştürme
+          
                   List<User> userList = [];
                   users.forEach((key, value) {
-                    // Kullanıcıyı User modeline dönüştür
+             
                     User user = User.fromMap(value);
                     userList.add(user);
                     print('Kullanıcı ID: $key, Yaş: ${user.user_age}, Ad: ${user.user_name}, Telefon: ${user.phonenumber}');
@@ -192,8 +190,8 @@ class FirebaseStudy extends StatelessWidget {
 
               if(snapshot.exists){
                 snapshot.children.forEach((childSnapshot){
-                  String userId = childSnapshot.key!;  // Kullanıcı ID'sini al
-                  Map<String, dynamic> userData = Map<String, dynamic>.from(childSnapshot.value as Map);  // Tür dönüşümü
+                  String userId = childSnapshot.key!; 
+                  Map<String, dynamic> userData = Map<String, dynamic>.from(childSnapshot.value as Map); 
                   //debugPrint(userData.entries.first.toString());
                   print('Kullanıcı ID: $userId');
                   print('Kullanıcı Adı: ${userData['kisi_ad']}');
